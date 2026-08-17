@@ -355,17 +355,25 @@
   }
 
   /* ---------- map ---------- */
-  .map-wrap{
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 12px 30px rgba(20,30,80,0.15);
+  .map-cta{
+    text-align:center;
     margin-top:36px;
   }
-  .map-wrap iframe{
-    width:100%;
-    height:340px;
-    border:0;
-    display:block;
+  .map-btn{
+    display:inline-block;
+    padding:16px 30px;
+    border-radius:14px;
+    background:var(--navy2);
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+    font-size:1.05rem;
+    box-shadow:0 10px 26px rgba(20,30,80,0.2);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .map-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 34px rgba(20,30,80,0.28);
   }
 
   /* ---------- footer ---------- */
@@ -432,10 +440,8 @@
       <p>Come as you are — just bring the birthday energy!</p>
     </div>
   </div>
-  <div class="map-wrap reveal">
-    <iframe
-      src="https://www.google.com/maps?q=660+Plainsboro+Rd,+Plainsboro+Township,+NJ+08536&output=embed"
-      loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <div class="map-cta reveal">
+    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=660+Plainsboro+Rd,+Plainsboro+Township,+NJ+08536" target="_blank" rel="noopener">📍 Get Directions to AlJohns</a>
   </div>
 </section>
 
@@ -444,13 +450,25 @@
   <h2 class="section-title reveal">Memories</h2>
   <p class="section-sub reveal">A little throwback before the big day</p>
   <div class="collage">
-    <figure class="reveal"><img src="assets/memory5.jpeg" alt="Memory with friends" loading="lazy"/></figure>
-    <figure class="reveal"><img src="assets/memory1.jpeg" alt="Memory in the kitchen" loading="lazy"/></figure>
-    <figure class="reveal"><img src="assets/memory4.jpeg" alt="Group photo at the movies" loading="lazy"/></figure>
-    <figure class="reveal"><img src="assets/memory3.jpeg" alt="Mall selfie with friends" loading="lazy"/></figure>
-    <figure class="reveal"><img src="assets/memory2.jpeg" alt="Mirror selfie" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory1.jpeg" alt="Memory 1" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory2.jpeg" alt="Memory 2" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory3.jpeg" alt="Memory 3" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory4.jpeg" alt="Memory 4" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory5.jpeg" alt="Memory 5" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory6.jpeg" alt="Memory 6" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory7.jpeg" alt="Memory 7" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory8.jpeg" alt="Memory 8" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory9.jpeg" alt="Memory 9" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory10.jpeg" alt="Memory 10" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory11.jpeg" alt="Memory 11" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory12.jpeg" alt="Memory 12" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory13.jpeg" alt="Memory 13" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory14.jpeg" alt="Memory 14" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory15.jpeg" alt="Memory 15" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory16.jpeg" alt="Memory 16" loading="lazy"/></figure>
+    <figure class="reveal"><img src="assets/memory17.jpeg" alt="Memory 17" loading="lazy"/></figure>
   </div>
-</section>
+  </section>
 
 <!-- RSVP -->
 <section id="rsvp" class="rsvp">
