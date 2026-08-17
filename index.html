@@ -475,7 +475,7 @@
   <h2 class="section-title reveal">RSVP</h2>
   <p class="section-sub reveal">Let us know if you can make it — kindly reply ASAP — it's coming right up!</p>
 
-  <form id="rsvpForm" class="reveal">
+  <form id="rsvpForm" class="reveal" action="https://formsubmit.co/orbitboyzz@gmail.com" method="POST">
     <div>
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" placeholder="Your name" required />
@@ -600,50 +600,69 @@
   items.forEach(i=>io.observe(i));
 })();
 
-/* ---------------- RSVP handling (stored locally in-browser) ---------------- */
+/* ---------------- RSVP handling: emails via FormSubmit, live shared counter via CountAPI ---------------- */
 (function(){
   const form = document.getElementById('rsvpForm');
   const success = document.getElementById('rsvpSuccess');
   const successName = document.getElementById('successName');
   const successMsg = document.getElementById('successMsg');
   const rsvpCount = document.getElementById('rsvpCount');
-  const STORAGE_KEY = 'sharrav_rsvp_list';
+  const NAMESPACE = 'sharrav-bday-2026-orbitboyzz';
 
-  function getList(){
-    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch(e){ return []; }
-  }
-  function renderCount(){
-    const list = getList();
-    const yesCount = list.filter(r=>r.attending && r.attending.startsWith("Yes")).length;
-    rsvpCount.textContent = list.length
-      ? `${list.length} ${list.length===1?'response':'responses'} so far · ${yesCount} confirmed yes 🎉`
+  function renderCount(total, yes){
+    rsvpCount.textContent = total
+      ? `${total} ${total===1?'response':'responses'} so far · ${yes} confirmed yes 🎉`
       : '';
   }
-  renderCount();
+
+  function refreshCount(){
+    Promise.all([
+      fetch(`https://api.countapi.xyz/get/${NAMESPACE}/total`).then(r=>r.json()).catch(()=>({value:0})),
+      fetch(`https://api.countapi.xyz/get/${NAMESPACE}/yes`).then(r=>r.json()).catch(()=>({value:0}))
+    ]).then(([t,y])=>{
+      renderCount(t.value || 0, y.value || 0);
+    }).catch(()=>{});
+  }
+  refreshCount();
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
+    const submitBtn = form.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
     const data = {
       name: document.getElementById('name').value.trim(),
       email: document.getElementById('email').value.trim(),
       attending: form.querySelector('input[name="attending"]:checked').value,
       message: document.getElementById('message').value.trim(),
-      time: new Date().toISOString()
+      _subject: "New RSVP for Sharrav's Birthday! 🎉"
     };
-    const list = getList();
-    list.push(data);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 
-    form.style.display = 'none';
-    success.classList.add('show');
-    successName.textContent = data.name || 'friend';
-    successMsg.textContent = data.attending.startsWith("Yes")
-      ? "Your RSVP has been recorded. Can't wait to celebrate with you!"
-      : (data.attending === "Maybe"
-          ? "Your RSVP has been recorded. Hope you can make it!"
-          : "Your RSVP has been recorded. You'll be missed!");
-    renderCount();
+    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(()=>{
+      const hits = [fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/total`).then(r=>r.json())];
+      if (data.attending.startsWith('Yes')) {
+        hits.push(fetch(`https://api.countapi.xyz/hit/${NAMESPACE}/yes`).then(r=>r.json()));
+      }
+      return Promise.all(hits);
+    })
+    .catch(()=>{})
+    .finally(()=>{
+      form.style.display = 'none';
+      success.classList.add('show');
+      successName.textContent = data.name || 'friend';
+      successMsg.textContent = data.attending.startsWith("Yes")
+        ? "Your RSVP has been recorded. Can't wait to celebrate with you!"
+        : (data.attending === "Maybe"
+            ? "Your RSVP has been recorded. Hope you can make it!"
+            : "Your RSVP has been recorded. You'll be missed!");
+      refreshCount();
+    });
   });
 })();
 </script>
