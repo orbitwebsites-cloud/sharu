@@ -493,10 +493,6 @@
       </div>
     </div>
     <div>
-      <label for="guests">Number of Guests (including you)</label>
-      <input type="number" id="guests" name="guests" min="1" max="10" value="1" />
-    </div>
-    <div>
       <label for="message">Message for Sharrav (optional)</label>
       <textarea id="message" name="message" rows="3" placeholder="Say something nice!"></textarea>
     </div>
@@ -632,7 +628,6 @@
       name: document.getElementById('name').value.trim(),
       email: document.getElementById('email').value.trim(),
       attending: form.querySelector('input[name="attending"]:checked').value,
-      guests: document.getElementById('guests').value,
       message: document.getElementById('message').value.trim(),
       time: new Date().toISOString()
     };
